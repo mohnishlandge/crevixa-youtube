@@ -7,120 +7,148 @@
     <title>LOCOMOTIVE-SCROLL ONE-FILE</title>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollToPlugin.min.js"></script>
+    <script>
+                  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+      ScrollTrigger.defaults({
+        toggleActions: "restart pause resume pause"
+      });
+
+      /* Main navigation */
+      const panelsSection = document.querySelector("#panels");
+      const panelsContainer = document.querySelector("#panels-container");
+      document.querySelectorAll(".anchor").forEach(anchor => {
+        anchor.addEventListener("click", function(e) {
+          e.preventDefault();
+
+          const targetElem = document.querySelector(e.target.getAttribute("href"));
+          if(targetElem && panelsContainer.isSameNode(targetElem.parentElement)) {
+            const containerOffset = panelsSection.offsetTop + targetElem.offsetLeft;
+
+            gsap.to(window, {
+              scrollTo: {
+                y: containerOffset,
+                autoKill: false
+              },
+              duration: 1
+            });
+          } else {
+            gsap.to(window, {
+              scrollTo: {
+                y: targetElem,
+                autoKill: false
+              },
+              duration: 1
+            });
+          }
+        });
+      });
+
+      /* Panels */
+      const panels = gsap.utils.toArray("#panels-container .panel");
+      gsap.to(panels, {
+        xPercent: -100 * ( panels.length - 1 ),
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#panels-container",
+          pin: true,
+          start: "top top",
+          scrub: 1
+      })
+    </script>
     <style>
-      * {
+      /* Most of these styles could be removed but are for the demo to look better */
+
+      html,
+      body {
         margin: 0;
+        height: 100%;
+        font-weight: 300;
+      }
+
+      a {
+        color: white;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+      }
+
+      .full-screen {
+        display: block;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      #intro {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      #masthead {
+        position: fixed;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        z-index: 9999;
+      }
+      #masthead a {
+        padding: 1rem 2rem;
+      }
+
+      #panels #panels-container {
+        height: 100vh;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
         padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        background-color: #202020;
-        color: #fcfcfc;
-      }
-
-      .sec-1 {
-        height: 80vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .sec-1 .lines h1 {
-        margin: -15px 0;
-        margin-right: -45px;
-        font-size: 2em;
-        line-height: 2em;
-        text-transform: uppercase;
-        font-family: Arial, Helvetica, sans-serif;
-        mix-blend-mode: difference;
-      }
-
-      .sec-1 .mask {
-        z-index: -1;
-        height: 100%;
-        width: 38vw;
         overflow: hidden;
+        background-color: #ddd;
       }
-
-      .sec-1 .mask img {
-        display: block;
-        height: 100%;
-        width: 100%;
-        -o-object-fit: cover;
-        object-fit: cover;
-        -o-object-position: center;
-        object-position: center;
-      }
-
-      .sec-2 {
+      #panels #panels-container .panel {
         position: relative;
-        height: 190vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .sec-2 .mask {
-        height: 50%;
-        width: 88%;
-        margin: 0 auto;
-        overflow: hidden;
-      }
-
-      .sec-2 .mask .hero {
-        display: block;
-        height: 100%;
         width: 100%;
-        -o-object-fit: cover;
-        object-fit: cover;
-        -o-object-position: center;
-        object-position: center;
-      }
-
-      .sec-2 .woman {
-        z-index: -10;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 58%;
-        display: block;
-        transform: translate(-50%, -50%);
-      }
-
-      .sec-3 {
+        height: 100vh;
+        overflow: hidden;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        color: #333;
+        text-align: left;
+        border-right: 1px solid #f00;
       }
-
-      .sec-3 p {
-        max-width: 700px;
-        margin: 0 auto;
-        text-align: justify;
-        font-size: 24px;
-        line-height: 1.6;
+      #panels #panels-container .panel img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      #panels #panels-container .panel .panels-navigation {
+        width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+      }
+      #panels #panels-container .panel .anchor-panel,
+      #panels #panels-container .panel .nav-panel {
+        color: #000;
         text-transform: uppercase;
-        font-family: Arial, Helvetica, sans-serif;
-        mix-blend-mode: difference;
+        margin-right: 2rem;
       }
-
-      .sec-3 button {
-        margin-top: 40px;
-        margin-bottom: 130px;
-        padding: 2em 50px;
-        border: none;
-        background: transparent;
-        text-transform: uppercase;
-        font-family: Arial, Helvetica, sans-serif;
-        color: inherit;
-        letter-spacing: 4.5px;
-        font-size: 1em;
-      }
-
-      .sec-3 button:hover {
-        cursor: pointer;
+      #panels #panels-container .panels-navigation {
+        position: absolute;
+        width: 100%;
+        bottom: 2rem;
+        right: 2rem;
       }
 
       /* LOCO CSS BASE */
@@ -209,106 +237,151 @@
     </style>
   </head>
   <body>
-    <main data-scroll-container>
-      <section data-scroll-section class="sec-1">
-        <div class="lines">
-          <h1 data-scroll data-scroll-speed="2">Locomotive Scroll</h1>
-          <h1 data-scroll data-scroll-speed="3">Template / Boilerplate</h1>
-          <h1 data-scroll data-scroll-speed="4">using a single</h1>
-          <h1 data-scroll data-scroll-speed="5">index.html file</h1>
-          <h1 data-scroll data-scroll-speed="6"></h1>
-          <h1 data-scroll data-scroll-speed="7">---------</h1>
-        </div>
-        <div class="mask mask-sec-1">
-          <img
-            data-scroll
-            data-scroll-speed="-2"
-            src="https://images.unsplash.com/photo-1583029233184-fb8aad989608?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"
-            alt="BW woman"
-          />
-        </div>
-      </section>
-      <section data-scroll-section class="sec-2">
-        <div class="mask">
-          <img
-            data-scroll
-            data-scroll-speed="1"
-            src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/7ecb5393353199.5e624745c635e.jpeg"
-            alt="bw"
-            class="hero"
-          />
-        </div>
-        <div class="mask">
-          <img
-            data-scroll
-            data-scroll-speed="1"
-            src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/7ecb5393353199.5e624745c635e.jpeg"
-            alt=""
-            class="hero"
-            style="filter: grayscale(1)"
-          />
-        </div>
-        <img
-          src="https://images.unsplash.com/photo-1570532464605-725bfc771676?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80"
-          alt="bw woman"
-          class="woman"
-        />
-      </section>
-      <section data-scroll-section class="sec-3">
-        <p>
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It
-          has roots in a piece of classical Latin literature from 45 BC, making
-          it over 2000 years old. Richard McClintock, a Latin professor at
-          Hampden-Sydney College in Virginia, looked up one of the more obscure
-          Latin words, consectetur, from a Lorem Ipsum passage, and going
-          through the cites of the word in classical literature, discovered the
-          undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
-          1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and
-          Evil) by Cicero, written in 45 BC. This book is a treatise on the
-          theory of ethics, very popular during the Renaissance. The first line
-          of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
-          section 1.10.32.
-        </p>
-        <button id="back-to-top-btn">Back to the top</button>
-      </section>
-    </main>
-    <script>
-      const locoScroll = new LocomotiveScroll({
-        el: document.querySelector('[data-scroll-container]'),
-        smooth: true,
-        smoothMobile: false,
-        direction: 'horizontal',
-        inertia: 0.8,
-        // repeat: true,
-      })
+    <div id="page" class="site">
+      <div id="feather" class="feather"></div>
 
-      const bttBtn = document.getElementById('back-to-top-btn')
-      bttBtn.addEventListener(
-        'click',
-        function () {
-          locoScroll.scrollTo(0)
-        },
-        false
-      )
+      <header id="masthead" class="site-header" role="banner">
+        <nav class="anchor-nav" role="navigation">
+          <a href="#intro" class="anchor">Home</a>
+          <a href="#panel-1" class="anchor">Panel 1</a>
+          <a href="#panel-3" class="anchor">Panel 3</a>
+          <a href="#panel-5" class="anchor">Panel 5</a>
+          <a href="#map" class="anchor">Map</a>
+        </nav>
+      </header>
 
-      const tl = gsap.timeline()
-      const maskSec1 = document.querySelector('.mask-sec-1')
-      tl.from(maskSec1, {
-        opacity: 0,
-        x: '-100px',
-        duration: 1.5,
-        ease: 'power3.out',
-      }).from(
-        '.lines > h1',
-        {
-          opacity: 0,
-          x: '100px',
-          stagger: 0.15,
-          duration: 1.2,
-          ease: 'power3.inOut',
-        },
-        'start-=1.45'
-      )
-    </script>
+      <main id="content" class="site-content" role="main">
+        <section id="panels">
+          <div id="panels-container" style="width: 500%">
+            <article id="panel-1" class="panel full-screen red">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6">
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-6 d-flex flex-column">
+                    <h2>Panel 1</h2>
+
+                    <p class="step-description">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Including versions of Lorem Ipsum.
+                    </p>
+
+                    <div class="panels-navigation text-right">
+                      <div class="nav-panel" data-sign="plus">
+                        <a href="#panel-2" class="anchor">Next</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article id="panel-2" class="panel full-screen orange">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6">
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-6 d-flex flex-column">
+                    <h2>Panel 2</h2>
+
+                    <p class="step-description">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Including versions of Lorem Ipsum.
+                    </p>
+
+                    <div class="panels-navigation">
+                      <div class="nav-panel" data-sign="minus">
+                        <a href="#panel-1" class="anchor">Prev</a>
+                      </div>
+                      <div class="nav-panel" data-sign="plus">
+                        <a href="#panel-3" class="anchor">Next</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article id="panel-3" class="panel full-screen purple">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6">
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-6 d-flex flex-column">
+                    <h2>Panel 3</h2>
+
+                    <p class="step-description">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Including versions of Lorem Ipsum.
+                    </p>
+
+                    <div class="panels-navigation">
+                      <div class="nav-panel" data-sign="minus">
+                        <a href="#panel-2" class="anchor">Prev</a>
+                      </div>
+                      <div class="nav-panel" data-sign="plus">
+                        <a href="#panel-4" class="anchor">Next</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article id="panel-4" class="panel full-screen green">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6">
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-6 d-flex flex-column">
+                    <h2>Panel 4</h2>
+
+                    <p class="step-description">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Including versions of Lorem Ipsum.
+                    </p>
+
+                    <div class="panels-navigation">
+                      <div class="nav-panel" data-sign="minus">
+                        <a href="#panel-3" class="anchor">Prev</a>
+                      </div>
+                      <div class="nav-panel" data-sign="plus">
+                        <a href="#panel-5" class="anchor">Next</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article id="panel-5" class="panel full-screen gray">
+              <div class="container">
+                <div class="row">
+                  <div class="col-6">
+                    <img src="" alt="" />
+                  </div>
+                  <div class="col-6 d-flex flex-column">
+                    <h2>Panel 5</h2>
+
+                    <p class="step-description">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      typesetting industry. Including versions of Lorem Ipsum.
+                    </p>
+
+                    <div class="panels-navigation text-right">
+                      <div class="nav-panel" data-sign="minus">
+                        <a href="#panel-4" class="anchor">Prev</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="map" class="full-screen"></section>
+      </main>
+    </div>
   </body>
 </html>
