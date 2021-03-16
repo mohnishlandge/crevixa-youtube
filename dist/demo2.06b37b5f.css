@@ -1,0 +1,321 @@
+body {
+  --color-text: #e4e4e4;
+  --color-bg: #000000;
+  --color-link: #f80000;
+  --color-link-hover: #fff;
+  --color-gallery-title: #e4e4e4;
+  --color-gallery-number: #444444;
+  --color-gallery-link: #fff;
+  --color-gallery-link-bg: #f80000;
+  --color-gallery-link-hover: #0e0e0d;
+  --color-gallery-link-bg-hover: #e4e4e4;
+  --cursor-stroke: 10px;
+  --cursor-fill: #f80000;
+  --cursor-stroke-width: 1px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-transform: uppercase;
+}
+
+.rotate {
+  transform: rotate(0deg);
+}
+
+.gallery {
+  display: flex;
+  padding-right: 12vw;
+  margin-left: 10vw;
+}
+
+.home__logo {
+  position: fixed;
+  width: 17vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background-color: #000000;
+  z-index: 100;
+  border: 1px solid #e4e4e4;
+}
+.home__logo__pall {
+  position: fixed;
+  left: 8em;
+  bottom: 3em;
+  z-index: 110;
+}
+.home__logo__box {
+  position: fixed;
+  width: 9vw;
+  height: 40vh;
+  left: 0;
+  top: 0;
+  margin: 5em;
+  background-color: #000000;
+  z-index: 110;
+  border: 1px solid #e4e4e4;
+  border-bottom: 10px solid #e4e4e4;
+}
+
+.home__logo__box .logogif {
+  transform: rotate(-90deg);
+  width: 180%;
+  margin: 10em -4.5em;
+}
+
+.home__nav {
+  position: fixed;
+  width: 12.5em;
+  height: 68%;
+  right: 0;
+  top: 0;
+  background-color: #000000;
+  z-index: 120;
+  border: 1px solid #e4e4e4;
+}
+.home__nav__1 {
+  position: fixed;
+  width: 12.5em;
+  height: 20%;
+  right: 0;
+  top: 0;
+  background-color: #000000;
+  z-index: 122;
+  border: 1px solid #e4e4e4;
+}
+.home__nav__2 {
+  position: fixed;
+  width: 12.5em;
+  height: 68%;
+  right: 0;
+  top: 0;
+  background-color: #000000;
+  z-index: 120;
+  border: 1px solid #e4e4e4;
+}
+
+.home__nav__tri {
+  position: fixed;
+  right: 0;
+  bottom: -5px;
+  z-index: 110;
+}
+
+.home__logo__gif {
+  position: relative;
+  width: 150%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 30em;
+  transform: scale(1.5);
+}
+
+.gallery__item {
+  margin: 0 3vw;
+  display: grid;
+  grid-template-areas:
+    '... ...'
+    '... gallery-image'
+    '... ...';
+  grid-template-columns: 8rem 21vmax;
+  grid-template-rows: 8rem 28vmax 3rem;
+  border: 1px solid #e4e4e4;
+}
+
+.gallery__item-img {
+  grid-area: gallery-image;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  will-change: transform;
+}
+
+.gallery__item-imginner {
+  background-size: cover;
+  background-position: 50% 0;
+  width: calc(100% + 10vw);
+  margin-left: -5vw;
+  height: 100%;
+  will-change: transform;
+}
+
+.gallery__item-caption {
+  grid-area: 1 / 1 / 4 / 3;
+  display: grid;
+  grid-template-areas:
+    'gallery-number gallery-title'
+    'gallery-link ...'
+    'gallery-link gallery-tags';
+  grid-template-columns: 8rem auto;
+  grid-template-rows: 8rem auto 3rem;
+}
+
+.gallery__item-number {
+  grid-area: gallery-number;
+  font-size: 6rem;
+  font-size: clamp(2.5rem, 9vw, 6.5rem);
+  justify-self: end;
+  padding-right: 2rem;
+  color: var(--color-gallery-number);
+}
+
+.gallery__item-title {
+  grid-area: gallery-title;
+  margin: 0;
+  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 4rem);
+  color: var(--color-gallery-title);
+}
+
+.gallery__item-number,
+.gallery__item-title,
+.gallery__text {
+  font-family: 'Six Caps', serif;
+  font-weight: 200;
+  align-self: center;
+  letter-spacing: 3px;
+}
+.italic {
+  font-style: italic;
+  color: #838383;
+}
+
+.gallery__item-link {
+  grid-area: gallery-link;
+  align-self: end;
+  font-size: 1.5rem;
+  border: 1px solid #e4e4e4;
+  color: var(--color-gallery-link);
+  text-decoration: underline;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 500ms;
+}
+
+.gallery__item-link:focus,
+.gallery__item-link:hover {
+  background: var(--color-gallery-link-bg-hover);
+  color: var(--color-gallery-link-hover);
+  text-decoration: none;
+}
+
+.gallery__item-tags {
+  grid-area: gallery-tags;
+  margin: 2em 1em;
+  justify-self: end;
+  font-size: 1.5rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+  cursor: pointer;
+  font-family: 'Six Caps', serif;
+  letter-spacing: 2px;
+}
+
+.gallery__text {
+  font-size: 20vw;
+  line-height: 0.8;
+  margin: 0 20vw;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px #e4e4e4;
+  text-stroke: 1px #e4e4e4;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border: 1px solid #e4e4e4;
+}
+
+.gallery__text__last {
+  font-size: 20vw;
+  line-height: 0.8;
+  margin: 0 20vw;
+  text-transform: uppercase;
+  color: #e4e4e4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Six Caps', serif;
+  border: 1px solid #e4e4e4;
+}
+
+.gallery__text-inner {
+  display: block;
+  line-height: 1em;
+  letter-spacing: 10px;
+}
+
+@media screen and (min-width: 53em) {
+  .frame {
+    grid-template-areas: 'title demos demos links';
+  }
+  .frame__info {
+    justify-self: end;
+  }
+}
+
+.playbtn {
+  position: fixed;
+  margin: 0.2em;
+  z-index: 200;
+  top: 30%;
+  right: 0;
+}
+.playbtn img {
+  transform: translate(-50%, -50%) scale(1);
+  transition: 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.playbtn img:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+h4 {
+  position: fixed;
+  margin: 0em;
+  z-index: 200;
+  top: 49%;
+  right: -0.3em;
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.3em;
+  line-height: 150%;
+  /* or 16px */
+
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+
+  color: #cccccc;
+
+  transform: rotate(90deg);
+}
+
+h5 {
+  position: fixed;
+  margin: 0em;
+  z-index: 100;
+  bottom: 1em;
+  left: 24rem;
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1em;
+  line-height: 150%;
+  /* or 16px */
+
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+
+  color: #cccccc;
+}
+
+
+/*# sourceMappingURL=/demo2.06b37b5f.css.map */
